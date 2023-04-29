@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alitaalice.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":7,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述 本章介绍Map接口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map接口">
+<meta property="og:url" content="https://www.alitaalice.cn/2020/05/08/Map%E6%8E%A5%E5%8F%A3/index.html">
+<meta property="og:site_name" content="Alita&#39;s blog">
+<meta property="og:description" content="概述 本章介绍Map接口">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200530105616.png">
+<meta property="article:published_time" content="2020-05-08T11:57:52.000Z">
+<meta property="article:modified_time" content="2020-06-08T08:11:03.081Z">
+<meta property="article:author" content="Alita Alice">
+<meta property="article:tag" content="JAVA集合">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://photos.alitaalice.cn/image/20200530105616.png">
+
+<link rel="canonical" href="https://www.alitaalice.cn/2020/05/08/Map%E6%8E%A5%E5%8F%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Map接口 | Alita's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Alita's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Alita's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">君子藏器于身，待时而动</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.alitaalice.cn/2020/05/08/Map%E6%8E%A5%E5%8F%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Alita Alice">
+      <meta itemprop="description" content="但行好事 莫问前程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alita's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Map接口
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-08 19:57:52" itemprop="dateCreated datePublished" datetime="2020-05-08T19:57:52+08:00">2020-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-08 16:11:03" itemprop="dateModified" datetime="2020-06-08T16:11:03+08:00">2020-06-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/05/08/Map%E6%8E%A5%E5%8F%A3/" class="post-meta-item leancloud_visitors" data-flag-title="Map接口" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/05/08/Map%E6%8E%A5%E5%8F%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/08/Map%E6%8E%A5%E5%8F%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>10 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>本章介绍Map接口</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h2 id="一-Map的定义"><a href="#一-Map的定义" class="headerlink" title="一.Map的定义"></a>一.Map的定义</h2><p>Map是一种依照键（key）存储元素的容器，键（key）很像下标。在List里下标是整数，而在Map中键（key）可以是任意类型的对象。Map中不能有重复的键（key），每个键都有一个对应的值（value)</p>
+<p>一个键（key）和它对应的值（value)构成Map集合中的一个元素。</p>
+<p>Map中的元素是俩个对象，一个对象作为键，一个对象作为值，<strong>键不可以重复，但是值可以重复。</strong></p>
+<h2 id="二-Map常用方法"><a href="#二-Map常用方法" class="headerlink" title="二.Map常用方法"></a>二.Map常用方法</h2><ul>
+<li><p>添加</p>
+<table>
+<thead>
+<tr>
+<th>put(key,Value)</th>
+<th>调用put方法时，如果已经存在一个相同的key， 则返回的是前一个key对应的value，同时该key的新value覆盖旧value；如果是新的一个key，则返回的是null</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>putAll</td>
+<td>从指定映射中将所有映射关系复制到此映射中去。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><img src="https://photos.alitaalice.cn/image/20200530105616.png" alt=""></p>
+</li>
+<li><p>删除</p>
+<table>
+<thead>
+<tr>
+<th>remove(key)</th>
+<th>删除指定key的键值对，返回被删除的key关联的value，不存在返回null</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>remove(key,value)</td>
+<td>删除指定键值对，成功返回true</td>
+</tr>
+<tr>
+<td>clear()</td>
+<td>删除map中所有的键值对</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>获取</p>
+<table>
+<thead>
+<tr>
+<th>get(key)</th>
+<th>返回指定key所对应的value，不存在则返回null</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Int size()</td>
+<td>获取长度</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>判断</p>
+<table>
+<thead>
+<tr>
+<th>boolean isEmpty()</th>
+<th>长度为0返回true，否则false</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean containsKey(Object key)</td>
+<td>判断集合中是否包含指定的key</td>
+</tr>
+<tr>
+<td>boolean containsValue(Object value)</td>
+<td>判断集合中是否包含指定的value</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>示例：</p>
+<p>添加：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 13:48 2020/5/9</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map1.put(<span class="string">"jack"</span>, <span class="number">20</span>);</span><br><span class="line">        map1.put(<span class="string">"rose"</span>, <span class="number">18</span>);</span><br><span class="line">        map1.put(<span class="string">"lucy"</span>, <span class="number">17</span>);</span><br><span class="line">        map1.put(<span class="string">"java"</span>, <span class="number">25</span>);</span><br><span class="line">        System.out.println(<span class="string">"map11"</span>+map1);</span><br><span class="line"></span><br><span class="line">        Map&lt;String,Integer&gt; map2=<span class="keyword">new</span> HashMap();</span><br><span class="line">        map2.put(<span class="string">"张三丰"</span>, <span class="number">100</span>);</span><br><span class="line">        map2.put(<span class="string">"虚竹"</span>, <span class="number">20</span>);</span><br><span class="line">        System.out.println(<span class="string">"map2"</span>+map2);</span><br><span class="line">        <span class="comment">//从指定映射种将所有的映射关系复制到此映射种</span></span><br><span class="line">        map1.putAll(map2);</span><br><span class="line">        System.out.println(<span class="string">"map1"</span>+map1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">map11&#123;java=25, rose=18, lucy=17, jack=20&#125;</span></span><br><span class="line"><span class="comment">map2&#123;张三丰=100, 虚竹=20&#125;</span></span><br><span class="line"><span class="comment">map1&#123;java=25, 张三丰=100, rose=18, lucy=17, jack=20, 虚竹=20&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>删除：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 13:48 2020/5/9</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map1.put(<span class="string">"jack"</span>, <span class="number">20</span>);</span><br><span class="line">        map1.put(<span class="string">"rose"</span>, <span class="number">18</span>);</span><br><span class="line">        map1.put(<span class="string">"lucy"</span>, <span class="number">17</span>);</span><br><span class="line">        map1.put(<span class="string">"java"</span>, <span class="number">25</span>);</span><br><span class="line">        System.out.println(map1);</span><br><span class="line">        System.out.println(<span class="string">"delete value:"</span>+map1.remove(<span class="string">"java"</span>));</span><br><span class="line">        map1.clear();</span><br><span class="line">        System.out.println(<span class="string">"map1"</span>+map1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">&#123;java=25, rose=18, lucy=17, jack=20&#125;</span></span><br><span class="line"><span class="comment">delete value:25</span></span><br><span class="line"><span class="comment">map1&#123;&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>获取：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 13:48 2020/5/9</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map1.put(<span class="string">"jack"</span>, <span class="number">20</span>);</span><br><span class="line">        map1.put(<span class="string">"rose"</span>, <span class="number">18</span>);</span><br><span class="line">        map1.put(<span class="string">"lucy"</span>, <span class="number">17</span>);</span><br><span class="line">        map1.put(<span class="string">"java"</span>, <span class="number">25</span>);</span><br><span class="line">        System.out.println(map1);</span><br><span class="line">        System.out.println(<span class="string">"value:"</span>+map1.get(<span class="string">"jack"</span>));</span><br><span class="line">        System.out.println(<span class="string">"map.size:"</span>+map1.size());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">&#123;java=25, rose=18, lucy=17, jack=20&#125;</span></span><br><span class="line"><span class="comment">value:20</span></span><br><span class="line"><span class="comment">map.size:4</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>判断：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 13:48 2020/5/9</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map1.put(<span class="string">"jack"</span>, <span class="number">20</span>);</span><br><span class="line">        map1.put(<span class="string">"rose"</span>, <span class="number">18</span>);</span><br><span class="line">        map1.put(<span class="string">"lucy"</span>, <span class="number">17</span>);</span><br><span class="line">        map1.put(<span class="string">"java"</span>, <span class="number">25</span>);</span><br><span class="line">        System.out.println(map1);</span><br><span class="line">        System.out.println(<span class="string">"isEmpty"</span>+map1.isEmpty());</span><br><span class="line">        System.out.println(<span class="string">"containskey"</span>+map1.containsKey(<span class="string">"jack"</span>));</span><br><span class="line">        System.out.println(<span class="string">"containsvaluse"</span>+map1.containsValue(<span class="number">100</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">&#123;java=25, rose=18, lucy=17, jack=20&#125;</span></span><br><span class="line"><span class="comment">isEmptyfalse</span></span><br><span class="line"><span class="comment">containskeytrue</span></span><br><span class="line"><span class="comment">containsvalusefalse</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="三-遍历Map的方式"><a href="#三-遍历Map的方式" class="headerlink" title="三.遍历Map的方式"></a>三.遍历Map的方式</h3><ul>
+<li><p><strong>使用KeySet</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 13:48 2020/5/9</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map1.put(<span class="string">"jack"</span>, <span class="number">20</span>);</span><br><span class="line">        map1.put(<span class="string">"rose"</span>, <span class="number">18</span>);</span><br><span class="line">        map1.put(<span class="string">"lucy"</span>, <span class="number">17</span>);</span><br><span class="line">        map1.put(<span class="string">"java"</span>, <span class="number">25</span>);</span><br><span class="line">        System.out.println(map1);</span><br><span class="line">        Set&lt;String&gt; ks=map1.keySet();</span><br><span class="line">        Iterator&lt;String&gt; it=ks.iterator();</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            String key=it.next();</span><br><span class="line">            Integer value = map1.get(key);</span><br><span class="line">            System.out.println(<span class="string">"key="</span>+key+<span class="string">" value="</span>+value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">&#123;java=25, rose=18, lucy=17, jack=20&#125;</span></span><br><span class="line"><span class="comment">key=java value=25</span></span><br><span class="line"><span class="comment">key=rose value=18</span></span><br><span class="line"><span class="comment">key=lucy value=17</span></span><br><span class="line"><span class="comment">key=jack value=20</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>将Map转换成Set集合，通过Set的迭代器取出Set集合中的每一个元素（Iterator)就是Map集合中所有的键，再通过get方法获取键对应的值。</p>
+</li>
+<li><p>通过values获取所有的值，不能获取到key对象</p>
+<p>Collection<V> values()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map1.put(<span class="string">"jack"</span>, <span class="number">20</span>);</span><br><span class="line">        map1.put(<span class="string">"rose"</span>, <span class="number">18</span>);</span><br><span class="line">        map1.put(<span class="string">"lucy"</span>, <span class="number">17</span>);</span><br><span class="line">        map1.put(<span class="string">"java"</span>, <span class="number">25</span>);</span><br><span class="line">        Collection&lt;Integer&gt; vs=map1.values();  <span class="comment">//values方法获取所有的值但是不能获取到KEY对象。</span></span><br><span class="line">        Iterator&lt;Integer&gt; it = vs.iterator();</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Integer value=it.next();</span><br><span class="line">            System.out.println(<span class="string">"valuse="</span> +value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Map.Entry</p>
+<p>面向对象的思想将Map集合中的键和值映射关系打包成一个对象，就是Map.Entry</p>
+<p>将该对象存入Set集合，Map.Entry是一个对象，那么该对象具备的getKey ，getValue获得键和值。（<strong>通过Map中的entrySet()方法获取存放Map.Entry&lt;K,V&gt;对象的Set集合</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo7</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;Integer,String&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="number">1</span>,<span class="string">"aaaa"</span>);</span><br><span class="line">        map.put(<span class="number">2</span>,<span class="string">"bbb"</span>);</span><br><span class="line">        map.put(<span class="number">3</span>, <span class="string">"cccc"</span>);</span><br><span class="line">        System.out.println(map);</span><br><span class="line"></span><br><span class="line">        Set&lt;Map.Entry&lt;Integer,String&gt;&gt; es=map.entrySet();</span><br><span class="line">        Iterator&lt;Map.Entry&lt;Integer,String&gt;&gt; it=es.iterator();</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Map.Entry&lt;Integer,String&gt; en =it.next();</span><br><span class="line">            Integer key=en.getKey();</span><br><span class="line">            String value=en.getValue();</span><br><span class="line">            System.out.println(<span class="string">"key="</span>+key+<span class="string">"value="</span>+value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">&#123;1=aaaa, 2=bbb, 3=cccc&#125;</span></span><br><span class="line"><span class="comment">key=1value=aaaa</span></span><br><span class="line"><span class="comment">key=2value=bbb</span></span><br><span class="line"><span class="comment">key=3value=cccc</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p>底层是哈希表数据结构，线程是不同步的，<strong>可以存入null键。</strong></p>
+<p>要保证键的唯一性，需要覆盖hashCode方法 和equals方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 22:09 2020/5/10</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        HashMap&lt;Person,String&gt; hm=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"jack"</span>, <span class="number">20</span>), <span class="string">"1001"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"rose"</span>, <span class="number">18</span>), <span class="string">"1002"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"lucy"</span>, <span class="number">19</span>), <span class="string">"1003"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"hmm"</span>, <span class="number">17</span>), <span class="string">"1004"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"ll"</span>, <span class="number">17</span>), <span class="string">"1005"</span>);</span><br><span class="line">        System.out.println(hm);</span><br><span class="line">        System.out.println(hm.put(<span class="keyword">new</span> Person(<span class="string">"rose"</span>, <span class="number">18</span>), <span class="string">"1006"</span>));</span><br><span class="line">        Set&lt;Map.Entry&lt;Person,String&gt;&gt; entrySet =hm.entrySet();</span><br><span class="line">        Iterator&lt;Map.Entry&lt;Person,String&gt;&gt; it= entrySet.iterator();</span><br><span class="line">        <span class="keyword">while</span>  (it.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Map.Entry&lt;Person,String&gt; next=it.next();</span><br><span class="line">            Person key =next.getKey();</span><br><span class="line">            String value=next.getValue();</span><br><span class="line">            System.out.println(key+ <span class="string">"="</span> +value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  String name;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">int</span> age;</span><br><span class="line">    Person()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (!(o <span class="keyword">instanceof</span> Person)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        Person person = (Person) o;</span><br><span class="line">        <span class="keyword">return</span> getAge() == person.getAge() &amp;&amp;</span><br><span class="line">                getName().equals(person.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hash(getName(), getAge());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Person&#123;"</span> +</span><br><span class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", age="</span> + age +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out </span></span><br><span class="line"><span class="comment">&#123;Person&#123;name='ll', age=17&#125;=1005, Person&#123;name='jack', age=20&#125;=1001, Person&#123;name='hmm', age=17&#125;=1004, Person&#123;name='lucy', age=19&#125;=1003, Person&#123;name='rose', age=18&#125;=1002&#125;</span></span><br><span class="line"><span class="comment">1002</span></span><br><span class="line"><span class="comment">Person&#123;name='ll', age=17&#125;=1005</span></span><br><span class="line"><span class="comment">Person&#123;name='jack', age=20&#125;=1001</span></span><br><span class="line"><span class="comment">Person&#123;name='hmm', age=17&#125;=1004</span></span><br><span class="line"><span class="comment">Person&#123;name='lucy', age=19&#125;=1003</span></span><br><span class="line"><span class="comment">Person&#123;name='rose', age=18&#125;=1006</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h2><p>TreeMap的排序，TreeMap 可以对集合中的键进行排序，如何实现对键的排序？</p>
+<h3 id="方式1：-元素自身具备比较性"><a href="#方式1：-元素自身具备比较性" class="headerlink" title="方式1： 元素自身具备比较性"></a>方式1： 元素自身具备比较性</h3><p>和TreeSet一样原理，需要让存储在键位置的对象实现Comparable接口。重写compareTo方法，也就是让元素自身具备比较性，这种方式叫做元素的自然排序也叫默认排序。</p>
+<h3 id="方式2：容器具备比较性"><a href="#方式2：容器具备比较性" class="headerlink" title="方式2：容器具备比较性"></a>方式2：容器具备比较性</h3><p>当元素自身不具备比较性，或者自身具备的比较性不是所需要的，那么此时可以让<strong>容器自身具备</strong>，需要定义一个类<strong>实现接口Compatator，重写compare方法，并将该接口的子类实例对象作为参数传递给TreeMap集合的构造方法。</strong></p>
+<p>注意：当Comparable比较方式和Comparator比较方式同时存在时，以Comparator的比较方式为主。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 22:09 2020/5/10</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       TreeMap&lt;String,Integer&gt; tree=<span class="keyword">new</span> TreeMap&lt;&gt;();</span><br><span class="line">        tree.put(<span class="string">"张三"</span>,<span class="number">19</span>);</span><br><span class="line">        tree.put(<span class="string">"李四"</span>,<span class="number">20</span>);</span><br><span class="line">        tree.put(<span class="string">"王五"</span>,<span class="number">21</span>);</span><br><span class="line">        tree.put(<span class="string">"赵留"</span>,<span class="number">21</span>);</span><br><span class="line">        System.out.println(tree);</span><br><span class="line">        System.out.println(<span class="string">"张三"</span>.compareTo(<span class="string">"李四"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自定义元素排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This program demonstrates</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Alita Alice</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: Created in 22:09 2020/5/10</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     TreeMap&lt;Person,String&gt; hm=<span class="keyword">new</span> TreeMap&lt;Person, String&gt;(<span class="keyword">new</span> MyComparator());<span class="comment">//该接口的子类实例对象作为参数传递给TreeMap集合的构造方法。</span></span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"jack"</span>,<span class="number">20</span>),<span class="string">"1001"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"rose"</span>, <span class="number">18</span>), <span class="string">"1002"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"lucy"</span>, <span class="number">19</span>), <span class="string">"1003"</span>);</span><br><span class="line">        hm.put(<span class="keyword">new</span> Person(<span class="string">"hmm"</span>, <span class="number">17</span>), <span class="string">"1004"</span>);</span><br><span class="line">        System.out.println(hm);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Set&lt;Map.Entry&lt;Person,String&gt;&gt; entrySet=hm.entrySet();</span><br><span class="line">        Iterator&lt;Map.Entry&lt;Person,String&gt;&gt; it=entrySet.iterator();</span><br><span class="line">        <span class="keyword">while</span>  (it.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Map.Entry&lt;Person,String&gt; next=it.next();</span><br><span class="line">            Person key=next.getKey();</span><br><span class="line">            String value=next.getValue();</span><br><span class="line">            System.out.println(key+ <span class="string">"="</span> +value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComparator</span> <span class="keyword">implements</span> <span class="title">Comparator</span>&lt;<span class="title">Person</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Person p1,Person p2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(p1.getAge()&gt;p2.getAge())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(p1.getAge()&lt;p2.getAge())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p1.getName().compareTo(p2.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Person</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">  Person()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (!(o <span class="keyword">instanceof</span> Person)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        Person person = (Person) o;</span><br><span class="line">        <span class="keyword">return</span> getAge() == person.getAge() &amp;&amp;</span><br><span class="line">                getName().equals(person.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hash(getName(), getAge());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Person&#123;"</span> +</span><br><span class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", age="</span> + age +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Person p)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.age&gt;p.age) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.age&lt;p.age)</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name.compareTo(p.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* out</span></span><br><span class="line"><span class="comment">&#123;Person&#123;name='jack', age=20&#125;=1001, Person&#123;name='lucy', age=19&#125;=1003, Person&#123;name='rose', age=18&#125;=1002, Person&#123;name='hmm', age=17&#125;=1004&#125;</span></span><br><span class="line"><span class="comment">Person&#123;name='jack', age=20&#125;=1001</span></span><br><span class="line"><span class="comment">Person&#123;name='lucy', age=19&#125;=1003</span></span><br><span class="line"><span class="comment">Person&#123;name='rose', age=18&#125;=1002</span></span><br><span class="line"><span class="comment">Person&#123;name='hmm', age=17&#125;=1004</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：Set元素不可重复，Map的键不可重复</p>
+<p>​           如果存入重复元素如何处理?</p>
+<p>Set元素重复元素不能存入add方法，返回false;</p>
+<p>Map的重复键将覆盖旧键，将旧值返回。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Alita Alice
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://www.alitaalice.cn/2020/05/08/Map%E6%8E%A5%E5%8F%A3/" title="Map接口">https://www.alitaalice.cn/2020/05/08/Map接口/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JAVA%E9%9B%86%E5%90%88/" rel="tag"># JAVA集合</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/08/%E5%86%85%E9%83%A8%E7%B1%BB/" rel="prev" title="内部类">
+      <i class="fa fa-chevron-left"></i> 内部类
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/08/Set%E7%9B%B8%E5%85%B3/" rel="next" title="Set相关">
+      Set相关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Map的定义"><span class="nav-number">3.</span> <span class="nav-text">一.Map的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-Map常用方法"><span class="nav-number">4.</span> <span class="nav-text">二.Map常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三-遍历Map的方式"><span class="nav-number">4.1.</span> <span class="nav-text">三.遍历Map的方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap"><span class="nav-number">5.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeMap"><span class="nav-number">6.</span> <span class="nav-text">TreeMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式1：-元素自身具备比较性"><span class="nav-number">6.1.</span> <span class="nav-text">方式1： 元素自身具备比较性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式2：容器具备比较性"><span class="nav-number">6.2.</span> <span class="nav-text">方式2：容器具备比较性</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Alita Alice"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Alita Alice</p>
+  <div class="site-description" itemprop="description">但行好事 莫问前程</div>
+</div>
+
+   <div class="feed-link motion-element">
+     <a href="/atom.xml" rel="alternate">
+       <i class="fa fa-rss"></i>
+       RSS
+     </a>
+   </div>
+ 
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">196</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alita Alice</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">202k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">3:04</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	<span><br></span>	
+
+	<span class="post-meta-item-icon">
+	      <i class="fa fa-group"></i>
+	</span>
+	<span>总访客&nbsp<span id="busuanzi_value_site_uv"></span>&nbsp人</span>
+    	<span class="post-meta-divider">|</span>
+	<span class="post-meta-item-icon">
+	      <i class="fa fa-eye"></i>
+	</span>
+    	<span>访问总量&nbsp<span id="busuanzi_value_site_pv"></span>&nbsp次</span>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'CA2aJGINRmVJi49ntr4sj44c-gzGzoHsz',
+      appKey     : 'CB4XrxBdbG9ndBkYwo9N6Kf6',
+      placeholder: "遗憾莫过于难忘你的背影，却找不到你来过的痕迹",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/haru02.model.json"},"display":{"position":"left","width":220,"height":440},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

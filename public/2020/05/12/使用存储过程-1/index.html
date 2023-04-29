@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alitaalice.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":7,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述 本章介绍什么是存储过程，为什么要使用存储过程以及如何使用存储过程，并且介绍创建和使用存储过程的基本语法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用存储过程">
+<meta property="og:url" content="https://www.alitaalice.cn/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/index.html">
+<meta property="og:site_name" content="Alita&#39;s blog">
+<meta property="og:description" content="概述 本章介绍什么是存储过程，为什么要使用存储过程以及如何使用存储过程，并且介绍创建和使用存储过程的基本语法。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513001100.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513001134.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513001157.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513001232.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513001250.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513094242.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513094323.png">
+<meta property="og:image" content="https://photos.alitaalice.cn/image/20200513094845.png">
+<meta property="article:published_time" content="2020-05-12T12:55:02.000Z">
+<meta property="article:modified_time" content="2020-05-15T05:15:30.515Z">
+<meta property="article:author" content="Alita Alice">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://photos.alitaalice.cn/image/20200513001100.png">
+
+<link rel="canonical" href="https://www.alitaalice.cn/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>使用存储过程 | Alita's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Alita's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Alita's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">君子藏器于身，待时而动</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.alitaalice.cn/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Alita Alice">
+      <meta itemprop="description" content="但行好事 莫问前程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alita's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用存储过程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-12 20:55:02" itemprop="dateCreated datePublished" datetime="2020-05-12T20:55:02+08:00">2020-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-15 13:15:30" itemprop="dateModified" datetime="2020-05-15T13:15:30+08:00">2020-05-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/" class="post-meta-item leancloud_visitors" data-flag-title="使用存储过程" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>本章介绍什么是存储过程，为什么要使用存储过程以及如何使用存储过程，并且介绍创建和使用存储过程的基本语法。  </p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>存储过程简单来说，就是为以后的使用而保存的一条或多条MySQL语句的集合。可将其视为批文件，虽然它们的作用不仅限于批处理  。</p>
+<h2 id="为什么要使用存储过程"><a href="#为什么要使用存储过程" class="headerlink" title="为什么要使用存储过程"></a>为什么要使用存储过程</h2><p>理由：</p>
+<ul>
+<li>通过把处理封装在容易使用的单元中，简化复杂的操作（正如前面例子所述）。</li>
+<li>由于不要求反复建立一系列处理步骤，这保证了数据的完整性。如果所有开发人员和应用程序都使用同一（试验和测试）存储过程，则所使用的代码都是相同的。这一点的延伸就是防止错误。需要执行的步骤越多，出错的可能性就越大。防止错误保证了数据的一致性。</li>
+<li>简化对变动的管理。如果表名、列名或业务逻辑（或别的内容）有变化，只需要更改存储过程的代码。使用它的人员甚至不需要知道这些变化。</li>
+</ul>
+<p>这一点的延伸就是安全性。通过存储过程限制对基础数据的访问减少了数据讹误（无意识的或别的原因所导致的数据讹误）的机会。</p>
+<ul>
+<li>提高性能。因为使用存储过程比使用单独的SQL语句要快。</li>
+<li>存在一些只能用在单个请求中的MySQL元素和特性，存储过程可以使用它们来编写功能更强更灵活的代码（在下一章的例子中可以看到。）  </li>
+</ul>
+<p>换句话说，使用存储过程有3个主要的好处，即简单、安全、高性能。显然，它们都很重要。不过，在将SQL代码转换为存储过程前，也必须知道它的一些缺陷。  </p>
+<ul>
+<li><p>一般来说，存储过程的编写比基本SQL语句复杂，编写存储过程需要更高的技能，更丰富的经验。  </p>
+</li>
+<li><p>你可能没有创建存储过程的安全访问权限。许多数据库管理员限制存储过程的创建权限，允许用户使用存储过程，但不允许他们创建存储过程。  </p>
+</li>
+</ul>
+<h2 id="eg：一个返回产品平均价格的存储过程"><a href="#eg：一个返回产品平均价格的存储过程" class="headerlink" title="eg：一个返回产品平均价格的存储过程"></a>eg：一个返回产品平均价格的存储过程</h2><p><img src="https://photos.alitaalice.cn/image/20200513001100.png" alt=""></p>
+<p>此存储过程名为productpricing，用CREATE PROCEDURE productpricing()语句定义。如果存储过程接受参数，它们将在()中列举出来。此存储过程没有参数，但后跟的()仍然需要。 BEGIN和END语句用来限定存储过程体，过<br>程体本身仅是一个简单的SELECT语句。如何使用这个存储过程呢？</p>
+<p><img src="https://photos.alitaalice.cn/image/20200513001134.png" alt=""></p>
+<p><img src="https://photos.alitaalice.cn/image/20200513001157.png" alt=""></p>
+<p><img src="https://photos.alitaalice.cn/image/20200513001232.png" alt=""></p>
+<h4 id="如何使用这个存储过程-？"><a href="#如何使用这个存储过程-？" class="headerlink" title="如何使用这个存储过程  ？"></a>如何使用这个存储过程  ？</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">CALL <span class="title">productpricing</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://photos.alitaalice.cn/image/20200513001250.png" alt=""></p>
+<h4 id="如何删除这个存储过程？"><a href="#如何删除这个存储过程？" class="headerlink" title="如何删除这个存储过程？"></a>如何删除这个存储过程？</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP PROCEDURE productpricing;</span><br></pre></td></tr></table></figure>
+
+<p>仅当存在时删除 如果指定的过程不存在，则DROP PROCEDURE将产生一个错误。当过程存在想删除它时（如果过程不存在也不产生错误）可使用DROP PROCEDURE IF EXISTS。  </p>
+<h4 id="使用参数"><a href="#使用参数" class="headerlink" title="使用参数"></a>使用参数</h4><p>productpricing只是一个简单的存储过程，它简单地显示SELECT语句的结果。一般，存储过程并不显示结果，而是把结果返回给你指定的变量。    </p>
+<p>变量（variable） 内存中一个特定的位置，用来临时存储数据。  以下productpricing的修改版本（如果不先删除此存储过程，则不能再次创建它）：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">CREATE PROCEDURE <span class="title">productpricing</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">              OUT p1 DECIMAL(<span class="number">8</span>,<span class="number">2</span>)</span>,</span></span><br><span class="line"><span class="function">              OUT ph <span class="title">DECIMAL</span><span class="params">(<span class="number">8</span>,<span class="number">2</span>)</span>,</span></span><br><span class="line"><span class="function">              OUT pa <span class="title">DECIMAL</span><span class="params">(<span class="number">8</span>,<span class="number">2</span>)</span></span></span><br><span class="line"><span class="function">              )</span></span><br><span class="line"><span class="function">        BEGIN</span></span><br><span class="line"><span class="function">            SELECT <span class="title">Min</span><span class="params">(prod_price)</span></span></span><br><span class="line"><span class="function">            INTO p1</span></span><br><span class="line"><span class="function">            FROM products</span>;</span><br><span class="line">            <span class="function">SELECT <span class="title">Max</span><span class="params">(prod_price)</span></span></span><br><span class="line"><span class="function">            INTO ph</span></span><br><span class="line"><span class="function">            FROM products</span>;</span><br><span class="line">            <span class="function">SELECT <span class="title">Avg</span><span class="params">(prod_price)</span></span></span><br><span class="line"><span class="function">            INTO pa</span></span><br><span class="line"><span class="function">            FROM products</span>;</span><br><span class="line">            END;</span><br></pre></td></tr></table></figure>
+
+<p>此存储过程接受3个参数： pl存储产品最低价格， ph存储产品最高价格， pa存储产品平均价格。每个参数必须具有指定的类型，这里使用十进制值。关键字OUT指出相应的参数用来从存储过程传出一个值（返回给调用者）。 MySQL支持IN（传递给存储过程）、 OUT（从存储过程传出，如这里所用）和INOUT（对存储过程传入和传出）类型的参数。存储过程的代码位于BEGIN和END语句内，如前所见，它们是一系列SELECT语句，用来检索值，然后保存到相应的变量（通过指定INTO关键字）。</p>
+<p>​    为调用此修改过的存储过程，必须指定3个变量名  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">CALL <span class="title">productpricing</span><span class="params">(@pricelow,</span></span></span><br><span class="line"><span class="function"><span class="params">                    @pricehigh,</span></span></span><br><span class="line"><span class="function"><span class="params">                    @priceaverage)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>由于此存储过程要求3个参数，因此必须正好传递3个参数，不多也不少。所以，这条CALL语句给出3个参数。它们是存储过程将保存结果的3个变量的名字。<br><strong>变量名</strong> 所有MySQL变量都必须以@开始。  </p>
+<p><img src="https://photos.alitaalice.cn/image/20200513094242.png" alt=""></p>
+<p><img src="https://photos.alitaalice.cn/image/20200513094323.png" alt=""></p>
+<p>另外一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE ordertotal(</span><br><span class="line">IN onumeber INT,</span><br><span class="line">OUT ototal DECIMAL(8,2))</span><br><span class="line">BEGIN</span><br><span class="line">    SELECT Sum(item_price*quantity)</span><br><span class="line">    FROM orderitems</span><br><span class="line">    WHERE order_num&#x3D;onumber</span><br><span class="line">    INTO ototal;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+<p>为调用新存储过程，可以使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL ordertotal(20005,@total);</span><br></pre></td></tr></table></figure>
+
+<p><strong>必须给ordertotal传递两个参数；第一个参数为订单号，第二个参数为包含计算出来的合计的变量名。</strong>  </p>
+<p>为了显示合计：</p>
+<p>SELECT @total;</p>
+<p><img src="https://photos.alitaalice.cn/image/20200513094845.png" alt=""></p>
+<h2 id="建立智能存储过程"><a href="#建立智能存储过程" class="headerlink" title="建立智能存储过程"></a>建立智能存储过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">-- Name: ordertotal</span><br><span class="line">-- Parameters: onumber =order number</span><br><span class="line">--             taxable= <span class="number">0</span> <span class="keyword">if</span> not taxable,<span class="number">1</span> <span class="keyword">if</span> taxable</span><br><span class="line">--             ototal =order total variable</span><br><span class="line"></span><br><span class="line"><span class="function">CREATE PROCEDURE <span class="title">ordertotal</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        IN onumber INT,</span></span></span><br><span class="line"><span class="function"><span class="params">        IN taxable BOOLEAN,</span></span></span><br><span class="line"><span class="function"><span class="params">        OUT ototal DECIMAL(<span class="number">8</span>,<span class="number">2</span>)</span></span></span><br><span class="line"><span class="function">)COMMENT 'Obtain order total,optionally adding tax'</span></span><br><span class="line"><span class="function">BEGIN</span></span><br><span class="line"><span class="function">     --Declare variable <span class="keyword">for</span> total</span></span><br><span class="line"><span class="function">     DECLARE total <span class="title">DECIMAL</span><span class="params">(<span class="number">8</span>,<span class="number">2</span>)</span></span>;</span><br><span class="line">     --Declare tax percentage</span><br><span class="line">     DECLARE taxrate INT DEFAULT <span class="number">6</span>;</span><br><span class="line">     </span><br><span class="line">     --Get the order total</span><br><span class="line">     <span class="function">SELECT <span class="title">Sum</span><span class="params">(item_price*quantity)</span></span></span><br><span class="line"><span class="function">     FROM orderitems</span></span><br><span class="line"><span class="function">     WHERE order_num </span>=onumber</span><br><span class="line">     INTO total;</span><br><span class="line">     </span><br><span class="line">     --is <span class="keyword">this</span> taxable?</span><br><span class="line">     IF taxable THEN</span><br><span class="line">        --Yes,so add taxrate to the total</span><br><span class="line">        SELECT total+(total/<span class="number">100</span>*taxrate) INTO total;</span><br><span class="line">     END IF;</span><br><span class="line">     --And <span class="keyword">finally</span>,save to out variable</span><br><span class="line">     SELECT total INTO ototal;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+<p>为了试验它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CALL ordertotal(20005,0,@total);</span><br><span class="line">SELECT @total;</span><br></pre></td></tr></table></figure>
+
+<p>为显示用来创建一个存储过程的CREATE语句，使用SHOW CREATE<br>PROCEDURE语句：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW CREATE PROCEDURE ordertotal;</span><br></pre></td></tr></table></figure>
+
+<p>为了获得包括何时、由谁创建等详细信息的存储过程列表， 使用SHOW<br>PROCEDURE STATUS。  </p>
+<p>SHOW PROCEDURE STATUS列出所有存储过程。为限制其输出，可使用LIKE指定一个过滤模式，例如：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW PROCEDURE STATUS LIKE <span class="string">'ordertotal'</span>;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Alita Alice
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://www.alitaalice.cn/2020/05/12/%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B-1/" title="使用存储过程">https://www.alitaalice.cn/2020/05/12/使用存储过程-1/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/12/%E5%88%9D%E7%BA%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" rel="prev" title="初级排序算法">
+      <i class="fa fa-chevron-left"></i> 初级排序算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/13/HashMap%E9%BB%98%E8%AE%A4%E5%8A%A0%E8%BD%BD%E5%9B%A0%E5%AD%90%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A90.75/" rel="next" title="HashMap默认加载因子为什么选择0.75">
+      HashMap默认加载因子为什么选择0.75 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用存储过程"><span class="nav-number">3.</span> <span class="nav-text">为什么要使用存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eg：一个返回产品平均价格的存储过程"><span class="nav-number">4.</span> <span class="nav-text">eg：一个返回产品平均价格的存储过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何使用这个存储过程-？"><span class="nav-number">4.0.1.</span> <span class="nav-text">如何使用这个存储过程  ？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何删除这个存储过程？"><span class="nav-number">4.0.2.</span> <span class="nav-text">如何删除这个存储过程？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用参数"><span class="nav-number">4.0.3.</span> <span class="nav-text">使用参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立智能存储过程"><span class="nav-number">5.</span> <span class="nav-text">建立智能存储过程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Alita Alice"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Alita Alice</p>
+  <div class="site-description" itemprop="description">但行好事 莫问前程</div>
+</div>
+
+   <div class="feed-link motion-element">
+     <a href="/atom.xml" rel="alternate">
+       <i class="fa fa-rss"></i>
+       RSS
+     </a>
+   </div>
+ 
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">196</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alita Alice</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">202k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">3:04</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	<span><br></span>	
+
+	<span class="post-meta-item-icon">
+	      <i class="fa fa-group"></i>
+	</span>
+	<span>总访客&nbsp<span id="busuanzi_value_site_uv"></span>&nbsp人</span>
+    	<span class="post-meta-divider">|</span>
+	<span class="post-meta-item-icon">
+	      <i class="fa fa-eye"></i>
+	</span>
+    	<span>访问总量&nbsp<span id="busuanzi_value_site_pv"></span>&nbsp次</span>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'CA2aJGINRmVJi49ntr4sj44c-gzGzoHsz',
+      appKey     : 'CB4XrxBdbG9ndBkYwo9N6Kf6',
+      placeholder: "遗憾莫过于难忘你的背影，却找不到你来过的痕迹",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/haru02.model.json"},"display":{"position":"left","width":220,"height":440},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

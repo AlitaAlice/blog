@@ -115,10 +115,9 @@ theme: next-reloaded
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-- type: git
-  repo: https://github.com/AlitaAlice/AlitaAlice.github.io.git
-  branch: master
-- type: baidu_url_submitter
+- type: netlify
+  site_id: starlit-selkie-518d6d
+  publish: public
 
 
 
